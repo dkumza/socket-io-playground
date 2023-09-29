@@ -7,6 +7,9 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server);
 
+// Serve static files (CSS, images, etc.) from the "css" directory
+app.use("/css", express.static(__dirname + "/css"));
+
 app.get("/", (req, res) => {
    res.sendFile(join(__dirname, "index.html"));
 });
