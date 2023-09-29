@@ -10,6 +10,7 @@
       <form id="form" action="">
          <input id="input" autocomplete="off" /><button>Send</button>
       </form>
+
       <script src="/socket.io/socket.io.js"></script>
       <script>
          const socket = io();
@@ -18,6 +19,16 @@
          const input = document.getElementById("input");
          const messages = document.getElementById("messages");
 
+         // prompt the user for a username
+         let username = prompt("Enter your username:");
+
+         // display the username in the chat
+         const item = document.createElement("li");
+         item.textContent = `You are connected as: ${username}`;
+         messages.appendChild(item);
+         window.scrollTo(0, document.body.scrollHeight);
+
+         //  send the message to the "server"
          form.addEventListener("submit", (e) => {
             e.preventDefault();
             if (input.value) {
@@ -26,6 +37,7 @@
             }
          });
 
+         //  creates msg element and appends it to the messages list
          socket.on("chat message", (msg) => {
             const item = document.createElement("li");
             item.textContent = `${username}: ${msg}`;
@@ -33,18 +45,9 @@
             window.scrollTo(0, document.body.scrollHeight);
          });
 
-         // display in chat that user is connected
-         socket.on("connect", (user) => {
-            socket.emit("chat message", `User: ${username} is connected!`);
-         });
-
-         //  display in chat that user is disconnected
          socket.on("disconnect", () => {
             socket.emit("chat message", "I am disconnected");
          });
-
-         //  add user on propt
-         let username = prompt("Enter your username:");
       </script>
    </body>
 </html>
