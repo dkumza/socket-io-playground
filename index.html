@@ -28,10 +28,23 @@
 
          socket.on("chat message", (msg) => {
             const item = document.createElement("li");
-            item.textContent = msg;
+            item.textContent = `${username}: ${msg}`;
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
          });
+
+         // display in chat that user is connected
+         socket.on("connect", (user) => {
+            socket.emit("chat message", `User: ${username} is connected!`);
+         });
+
+         //  display in chat that user is disconnected
+         socket.on("disconnect", () => {
+            socket.emit("chat message", "I am disconnected");
+         });
+
+         //  add user on propt
+         let username = prompt("Enter your username:");
       </script>
    </body>
 </html>
